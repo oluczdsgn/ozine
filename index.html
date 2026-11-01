@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OZine — revista digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Barlow+Condensed:wght@500;700&family=Anton&family=Bebas+Neue&family=Unbounded:wght@400;800&family=Syne:wght@400;800&family=Archivo+Black&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f0eb;--fg:#37352f;--mut:#7a766d;--line:#dcd8cf}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+@media(pointer:fine){*{cursor:none!important}}
+#cur{position:fixed;left:0;top:0;width:26px;height:26px;border:2px solid #fff;border-radius:50%;pointer-events:none;z-index:9999;transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
+#cur.big{width:56px;height:56px;background:#fff}
+#lb{position:fixed;top:0;left:0;height:3px;width:0;background:#ff4d2e;z-index:10000;transition:width .3s,opacity .4s}
+.ic{display:inline-block;width:18px;height:18px;background:currentColor;-webkit-mask:var(--u) center/contain no-repeat;mask:var(--u) center/contain no-repeat;vertical-align:-3px}
+.gl{background:rgba(255,255,255,.4);-webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5);border:1px solid rgba(255,255,255,.75);box-shadow:0 4px 18px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.8);color:inherit;border-radius:99px;transition:.2s;font:500 14px Inter,sans-serif;text-decoration:none;padding:9px 16px;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.gl:hover{background:rgba(255,255,255,.75)}
+nav{position:sticky;top:0;z-index:60;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;background:rgba(242,240,235,.5);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.7);box-shadow:0 8px 30px rgba(0,0,0,.06)}
+#mn{display:flex;gap:4px;justify-content:center}
+#mn a{padding:8px 15px;border-radius:99px;font-size:14px;font-weight:500;text-decoration:none;color:var(--fg);white-space:nowrap;transition:.2s;border:1px solid transparent}
+#mn a:hover{background:rgba(255,255,255,.6);border-color:rgba(255,255,255,.8)}
+#mn a.on{background:var(--fg);color:var(--bg)}
+#rt{display:flex;gap:6px;justify-self:end}
+.pn{position:fixed;top:70px;right:16px;width:min(380px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:70;padding:20px;border-radius:24px;background:rgba(242,240,235,.72);-webkit-backdrop-filter:blur(26px) saturate(1.5);backdrop-filter:blur(26px) saturate(1.5);border:1px solid rgba(255,255,255,.8);box-shadow:0 20px 50px rgba(0,0,0,.15);display:none}
+.pn.on{display:block}
+.pn h5{font:700 22px 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 6px}
+.pn h5:first-child{margin-top:0}
+.pn a{display:block;padding:6px 0;color:var(--fg);text-decoration:none;font-size:15px}
+.pn a:hover{text-decoration:underline}
+.pn em{font-size:13px;color:var(--mut)}
+.pn iframe{width:100%;border:0;border-radius:12px;margin-bottom:10px;display:block}
+/* banner */
+#strip{display:flex;align-items:center;overflow-x:auto;padding:70px 60px 30px;min-height:520px;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;cursor:grab}
+#strip::-webkit-scrollbar{display:none}
+#strip.drag{cursor:grabbing}
+#strip.drag *{pointer-events:none}
+#strip>*{flex:none}
+#bt{margin-right:110px;align-self:flex-start;margin-top:10px}
+#bt h1{font:400 clamp(90px,13vw,200px)/.85 Anton,sans-serif;letter-spacing:-.01em}
+#bt p{font:700 clamp(18px,2vw,26px) 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.2em;margin-top:14px;color:var(--mut)}
+.bi{display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .5s;position:relative;filter:drop-shadow(0 22px 22px rgba(0,0,0,.2));-webkit-user-drag:none}
+.bi img{height:100%;display:block;pointer-events:none;-webkit-user-drag:none;user-select:none}
+.bi:hover{z-index:20}
+.a0:hover{transform:scale(1.12) rotate(-4deg)}
+.a1:hover{transform:translateY(-34px) rotate(3deg)}
+.a2:hover{transform:perspective(900px) rotateY(-22deg) scale(1.06)}
+.a3:hover{transform:scale(1.1) skewX(-6deg)}
+.a4:hover{transform:perspective(900px) rotateX(16deg) translateY(-14px)}
+.a5:hover{transform:rotate(7deg) scale(1.08);filter:drop-shadow(0 22px 22px rgba(0,0,0,.2)) saturate(1.7) hue-rotate(-18deg)}
+.a6:hover{transform:translateX(18px) scale(1.1) rotate(-2deg)}
+.w{min-width:220px;max-width:260px;border-radius:26px;padding:20px;margin:0 20px;background:#16161a;color:#fff;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 22px 40px rgba(0,0,0,.2);z-index:5}
+.w small{opacity:.6;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.w b{font-size:46px;font-weight:500;letter-spacing:-.03em;display:block}
+.w .s{opacity:.75;margin-top:6px;font-size:14px;line-height:1.4}
+.w button{background:#ff4d2e;color:#fff;border:0;border-radius:99px;padding:8px 13px;font-size:12px;align-self:flex-start;margin-top:10px}
+.sp{width:300px;margin:0 10px;border-radius:14px;z-index:4;overflow:hidden}
+.sp iframe{width:100%;height:100%;border:0;display:block}
+.nv{display:flex;justify-content:center;gap:26px;padding:6px 0 40px}
+.nv button{background:none;border:0;color:var(--fg);padding:10px;opacity:.75;transition:.2s}
+.nv button:hover{opacity:1;transform:scale(1.2)}
+.nv .ic{width:30px;height:30px}
+/* grid */
+main{padding:60px clamp(16px,4vw,60px);border-top:1px solid var(--line)}
+main h3{font:400 clamp(40px,6vw,76px)/1 'Instrument Serif',serif;margin-bottom:34px;text-align:center}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,210px));justify-content:center;gap:34px 24px}
+.card{display:block;text-align:center;text-decoration:none;color:inherit;animation:up .6s both}
+.card .pic{position:relative;aspect-ratio:3/4;border-radius:18px;overflow:hidden;background:#e4e1d9;border:1px solid var(--line);transition:transform .4s,box-shadow .4s}
+.card:hover .pic{transform:translateY(-6px);box-shadow:0 18px 30px rgba(0,0,0,.15)}
+.card img{width:100%;height:100%;object-fit:contain;display:block}
+.card i{position:absolute;top:10px;left:10px;font-style:normal;font-size:11px;background:var(--fg);color:var(--bg);padding:4px 10px;border-radius:99px}
+.card h4{font:700 clamp(22px,2.2vw,28px)/1.02 'Barlow Condensed',sans-serif;text-transform:uppercase;margin-top:14px;letter-spacing:.01em}
+@keyframes up{from{opacity:0;transform:translateY(24px)}}
+#more{margin:44px auto 0;display:flex;padding:14px 34px;font-size:15px}
+footer{background:#e7e4dc;border-top:1px solid var(--line);padding:90px clamp(20px,5vw,80px) 40px;min-height:440px}
+.ft{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:50px}
+.ft h2{font:400 clamp(80px,11vw,170px)/.85 Anton,sans-serif}
+.ft p{color:var(--mut);margin-top:18px;max-width:340px;line-height:1.5}
+.ft h6{font:700 20px 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+.sh{display:flex;gap:8px;flex-wrap:wrap}
+footer small{display:block;margin-top:70px;color:var(--mut);font-size:12px}
+/* reader */
+#rd{position:fixed;inset:0;z-index:200;overflow:auto;background:var(--rbg,#fff);color:var(--rfg,#111);clip-path:circle(0 at var(--cx,50%) var(--cy,50%));visibility:hidden;transition:clip-path .8s cubic-bezier(.7,0,.2,1),visibility 0s .8s}
+#rd.on{clip-path:circle(150% at var(--cx,50%) var(--cy,50%));visibility:visible;transition:clip-path .8s cubic-bezier(.7,0,.2,1)}
+#rd .gl{background:color-mix(in srgb,var(--rfg) 12%,transparent);border-color:color-mix(in srgb,var(--rfg) 28%,transparent);color:var(--rfg);box-shadow:none}
+#rd .gl:hover{background:color-mix(in srgb,var(--rfg) 25%,transparent)}
+.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;padding:16px 22px}
+.fx{position:fixed;left:0;top:0;width:min(46vw,640px);opacity:.36;pointer-events:none;z-index:0;will-change:transform}
+.art{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:10px 22px 90px}
+.art .cv{display:block;margin:0 auto 46px;max-width:min(100%,300px);max-height:48vh;width:auto;border-radius:12px;box-shadow:0 24px 50px rgba(0,0,0,.3)}
+.art h1{font-size:clamp(40px,7vw,84px);line-height:1;letter-spacing:-.01em;margin-bottom:46px;font-weight:400}
+.art h2{font-size:clamp(24px,3.2vw,36px);margin:50px 0 16px;line-height:1.1;font-weight:400}
+.art h3{font-size:clamp(20px,2.6vw,28px);margin:34px 0 10px;line-height:1.1;font-weight:400}
+.art h1 span,.art h2 span,.art h3 span{display:inline-block;margin-right:.22em;line-height:1}
+.art p{font-family:var(--bf);font-size:var(--bs,18px);line-height:1.62;margin-bottom:20px}
+.blog h1{font-family:'Instrument Serif',serif;font-size:clamp(48px,8vw,100px);line-height:.95}
+.blog p{font-family:Inter,sans-serif;font-size:18px}
+.blog figure{margin:26px 0}
+.blog figure img{width:100%;border-radius:8px;display:block}
+.blog figcaption{font-size:12px;opacity:.65;margin-top:6px}
+.src{font-size:12px;opacity:.8;margin-top:34px;line-height:2;word-break:break-all}
+.src a{color:inherit;margin-right:14px;display:inline-flex;align-items:center;gap:5px}
+.src .ic{width:14px;height:14px}
+.ld{padding:60px;text-align:center;opacity:.6}
+/* webcam */
+#cam{position:fixed;right:16px;bottom:16px;width:280px;z-index:700;border-radius:18px;overflow:hidden;background:#111;color:#fff;box-shadow:0 20px 50px rgba(0,0,0,.4);display:none}
+#cam.on{display:block}
+#cam .v{position:relative;transform:scaleX(-1)}
+#cam video,#cam canvas{display:block;width:100%}
+#cam canvas{position:absolute;inset:0;height:100%}
+#cam .t{padding:9px 12px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#cam button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:99px;padding:5px 11px;font-size:11px}
+#gi{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:none;place-items:center;padding:20px}
+#gi.on{display:grid}
+#gi div{background:var(--bg);color:var(--fg);border-radius:26px;padding:30px;max-width:460px;width:100%}
+#gi h4{font:400 40px 'Instrument Serif',serif;margin-bottom:12px}
+#gi li{margin:0 0 9px 18px;line-height:1.45;font-size:15px}
+#gi .gl{margin-top:16px;margin-right:8px}
+@media(max-width:900px){
+ nav{display:flex;overflow-x:auto;gap:10px;scrollbar-width:none}
+ #mn,#rt{flex:none;justify-self:auto}
+ .ft{grid-template-columns:1fr;gap:34px}
+ footer{padding-top:60px}
+}
+@media(max-width:640px){
+ #strip{padding:40px 24px 20px;min-height:430px}
+ #bt{margin-right:60px}
+ .bi{zoom:.78}
+ #grid{grid-template-columns:repeat(2,1fr);gap:26px 14px}
+ .art{padding:6px 18px 70px}
+ .nv .ic{width:26px;height:26px}
+ #cam{width:200px}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="lb"></div>
+
+<nav>
+  <span></span>
+  <div id="mn"></div>
+  <div id="rt">
+    <button class="gl" id="bS"><i class="ic" style="--u:url(https://api.iconify.design/ph/list-bullets.svg)"></i>Sumário</button>
+    <button class="gl" id="bP"><i class="ic" style="--u:url(https://api.iconify.design/ph/music-notes.svg)"></i>Playlist</button>
+    <button class="gl" id="bG" style="display:none"><i class="ic" style="--u:url(https://api.iconify.design/ph/hand-pointing.svg)"></i>Gestos</button>
+  </div>
+</nav>
+<div class="pn" id="pS"></div>
+<div class="pn" id="pP"></div>
+
+<section id="ban">
+  <div id="strip"></div>
+  <div class="nv">
+    <button id="pv" aria-label="Anterior"><i class="ic" style="--u:url(https://api.iconify.design/ph/arrow-left.svg)"></i></button>
+    <button id="nx" aria-label="Próximo"><i class="ic" style="--u:url(https://api.iconify.design/ph/arrow-right.svg)"></i></button>
+  </div>
+</section>
+
+<main>
+  <h3 id="gt">Todas as matérias</h3>
+  <div id="grid"></div>
+  <button class="gl" id="more">Ver mais</button>
+</main>
+
+<footer>
+  <div class="ft">
+    <div><h2>Ozine</h2><p>Artigos, matérias e indicações com curadoria própria, para descobrir novas referências.</p></div>
+    <div><h6>Redes sociais</h6><div class="sh" id="soc"></div></div>
+    <div><h6>Compartilhar</h6><div class="sh" id="shF"></div></div>
+  </div>
+  <small>© 2026 OZine · Edição 1</small>
+</footer>
+
+<div id="rd">
+  <div class="bar"><button class="gl" id="cl">✕ Fechar</button><button class="gl" id="nxa">Próximo artigo →</button></div>
+  <img class="fx" id="fx" alt="">
+  <div id="rb"></div>
+</div>
+
+<div id="cam"><div class="v"><video id="cv" playsinline muted></video><canvas id="cc" width="320" height="240"></canvas></div>
+  <div class="t"><span id="cst">Iniciando…</span><span><button id="cq">?</button> <button id="co">Desligar</button></span></div></div>
+<div id="gi"><div>
+  <h4>Navegar com gestos</h4>
+  <p style="font-size:14px;color:var(--mut);margin-bottom:12px">Use uma mão, com boa luz, a cerca de 50 cm da câmera. O vídeo não sai do seu computador.</p>
+  <ul>
+    <li><b>☝️ Apontar</b>: mova o dedo indicador para guiar o círculo na tela.</li>
+    <li><b>🤏 Pinça rápida</b> (polegar + indicador): clique.</li>
+    <li><b>🤏 Pinça segurando e movendo</b>: arrasta o banner na horizontal ou rola a página/artigo.</li>
+    <li><b>🖐 Mão aberta por 1 s</b>: próximo artigo (com um artigo aberto).</li>
+    <li><b>✊ Punho fechado por 1 s</b>: fecha o artigo.</li>
+  </ul>
+  <button class="gl" id="gOn">Ligar câmera</button><button class="gl" id="gX">Fechar</button>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const RAW='https://raw.githubusercontent.com/oluczdsgn/ozine/main/';
+const U=p=>RAW+p.split('/').map(encodeURIComponent).join('/');
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ic=n=>`<i class="ic" style="--u:url(https://api.iconify.design/ph/${n}.svg)"></i>`;
+const SOC=[['Instagram','https://www.instagram.com/','instagram-logo'],['YouTube','https://www.youtube.com/','youtube-logo'],['Spotify','https://open.spotify.com/','spotify-logo'],['TikTok','https://www.tiktok.com/','tiktok-logo'],['Pinterest','https://www.pinterest.com/','pinterest-logo']];
+
+/* ---------- dados ---------- */
+const FN={
+ ser:{f:"'Instrument Serif',serif",s:1.3},seri:{f:"'Instrument Serif',serif",s:1.3,i:1},
+ bebas:{f:"'Bebas Neue',sans-serif",s:1.2,u:1},anton:{f:"Anton,sans-serif",s:.92,u:1},
+ unb:{f:"Unbounded,sans-serif",w:800,s:.6},syne:{f:"Syne,sans-serif",w:800,s:.8},
+ arc:{f:"'Archivo Black',sans-serif",s:.7},bar:{f:"'Barlow Condensed',sans-serif",w:700,s:1.2,u:1}};
+const SERB="'Instrument Serif',serif";
+const T=[
+ {bg:'#111114',fg:'#f3efe6',ac:'#ff4d2e',tf:['unb','seri','anton'],bf:"Inter,sans-serif",bs:'18px'},
+ {bg:'#f4e9d4',fg:'#2b2118',ac:'#b3321b',tf:['ser','arc','bebas'],bf:SERB,bs:'23px'},
+ {bg:'#0d2a24',fg:'#e8f5ea',ac:'#9bff6a',tf:['syne','seri','bar'],bf:"'Space Grotesk',sans-serif",bs:'18px'},
+ {bg:'#ffd23f',fg:'#16120a',ac:'#e4002b',tf:['arc','bebas','ser'],bf:"Inter,sans-serif",bs:'18px'},
+ {bg:'#1b1f4b',fg:'#f0efff',ac:'#ff9ecd',tf:['seri','unb','bebas'],bf:"'Space Grotesk',sans-serif",bs:'18px'},
+ {bg:'#e9e4ff',fg:'#1c1433',ac:'#6a2cff',tf:['bebas','ser','syne'],bf:SERB,bs:'23px'},
+ {bg:'#f7f1ea',fg:'#1f1f1f',ac:'#0057ff',tf:['syne','seri','anton'],bf:SERB,bs:'23px'}
+];
+const E='Edição 1/';
+const ED=[
+ ['industria','A Indústria do Estilo Criativo','Criatividade','A Indústria do Estilo Criativo','A Indústria do Estilo Criativo_ Quando Consumir Substitui o Ato de Criar.pdf','A Indústria do Estilo Criativo - Post.png','A Indústria do Estilo Criativo - mockup.png'],
+ ['referencias','Dissecando Referências','Design','Dissecando Referências','Dissecando Referências.pdf','Dissecando Referências - Post.png','Dissecando Referências-mockup.png'],
+ ['cultura','O valor da cultura lenta','Lifestyle','O valor da cultura lenta','O Valor da Cultura Lenta.pdf','O valor da cultura lenta - Post.png','O valor da cultura lenta - Mockup.png'],
+ ['networking','Networking orgânico na rua','Criatividade','Networking Orgânico na Rua','Networking Orgânico.pdf','Networking Orgânico na Rua - Post.png','Networking Orgânico na Rua-mockup.png'],
+ ['farm','O “Farm” visual direcionado','Design','O Farm Visual Direcionado','O Farm Visual Direcionado.pdf','O Farm Visual Direcionado - Post.png','O Farm Visual Direcionado.png'],
+ ['criar','O valor de criar sem publicar','Criatividade','O Valor de Criar Sem Publicar','O Valor de Criar Sem Publicar.pdf','O Valor de Criar Sem Publicar - Post.png','O Valor de Criar Sem Publicar - mockup.png'],
+ ['rotina','Rotina Criativa','Lifestyle','Rotina Criativa','Rotina Criativa.pdf','Rotina Criativa - Post.png','Rotina Criativa - Mockup.png']
+].map((a,i)=>({id:a[0],title:a[1],tags:['Artigos',a[2]],kind:'ed',t:T[i],
+  pdf:U(E+a[3]+'/'+a[4]),cover:U(E+a[3]+'/'+a[5]),mock:U(E+a[3]+'/'+a[6])}));
+
+const BL=[
+ {id:'fantasia',title:'A Força da fantasia visível',cat:'Fotografia',dir:'Blog/Categorias/Fotografia/A Força da Fantasia Visível',file:'A Força da Fantasia Visível.pdf',
+  src:'https://www.creativeboom.com/insight/show-your-working-what-benji-reid-and-zana-masombuka-can-teach-creatives-about-building-believable-fantasy/',
+  links:[['Benji Reid — site','https://www.benjireid.com'],['Benji Reid — Instagram','https://www.instagram.com/benjireid/','ig'],['Zana Masombuka — site','https://www.octobergallery.co.uk/artists/masombuka'],['Zana Masombuka — Instagram','https://www.instagram.com/ndebelesuperhero/','ig']]},
+ {id:'poster',title:'O Peso Tangível do Pôster',cat:'Design',dir:'Blog/Categorias/Design/O Peso Tangível do Pôster',file:'O Peso Tangível do Pôster.pdf',
+  src:'https://www.thisiscolossal.com/2025/10/out-of-print-shepard-fairey-retrospective-beyond-the-streets/',
+  links:[['Shepard Fairey — site','https://obeygiant.com'],['Instagram','https://www.instagram.com/obeygiant/','ig'],['Loja','https://store.obeygiant.com/']]},
+ {id:'turrell',title:'Um pouco sobre Jimmy Turrell',cat:'Design',dir:'Blog/Categorias/Design/Jimmy Turrell',file:'Jimmy Turrell.pdf',
+  links:[['Site do artista','http://www.jimmyturrell.com'],['Instagram','https://www.instagram.com/jimmyturrell/','ig'],['Loja','https://jimmy-turrell.myshopify.com/collections/posters']]}
+].map(b=>({...b,kind:'blog',tags:['Artigos',b.cat],pdf:U(b.dir+'/'+b.file),cover:null,imgs:null}));
+
+const ALL=[...ED,...BL];
+const byId=id=>ALL.find(a=>a.id===id);
+const MENU=['Artigos','Design','Lifestyle','Games','Música','Criatividade','Fotografia','Vídeo','Sobre'];
+const SPL=[['1zoXDi9AY4TF5JoUuCCTL6','8f679eacb36447a6',152],['0pdmG6XHXq9p9FvZ36LEUz','062044de07b3471a',152],['3GO5e4FrArjjmjViEsrtrD','1f38a4b6ad474dae',352],['1fulFeOm8Zm5QJDSLRpoCc','79727e1395194254',152],['29EPImPtRiMHXONTJGMhip','9fc8c7620ccb41de',152]];
+const spSrc=s=>`https://open.spotify.com/embed/track/${s[0]}?utm_source=generator&si=${s[1]}`;
+const order=[...ALL].sort(()=>Math.random()-.5);
+let tag='Artigos',shown=0;
+
+/* ---------- utilidades ---------- */
+let busy=0;
+const bar=on=>{busy+=on?1:-1;const l=$('#lb');if(busy>0){l.style.opacity=1;l.style.width='70%'}else{l.style.width='100%';setTimeout(()=>{l.style.opacity=0;l.style.width='0'},400)}};
+const cache=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
+const clamp=v=>Math.max(0,Math.min(1,v));
+
+async function listImgs(b){
+  if(b.imgs)return b.imgs;
+  let d=cache('ozl_'+b.id);
+  if(!d){
+    bar(1);
+    try{
+      const j=await (await fetch('https://api.github.com/repos/oluczdsgn/ozine/contents/'+b.dir.split('/').map(encodeURIComponent).join('/'))).json();
+      d=j.filter(f=>/\.(png|jpe?g|webp|gif)$/i.test(f.name)).map(f=>({n:f.name,u:f.download_url})).sort((x,y)=>x.n.localeCompare(y.n,'pt',{numeric:true}));
+      if(d.length)cache('ozl_'+b.id,d)
+    }catch(e){d=[]}
+    bar(0);
+  }
+  b.imgs=d||[];
+  if(b.imgs[0])b.cover=b.imgs[0].u;
+  return b.imgs;
+}
+
+let pdfReady;
+function pdfInit(){
+  return pdfReady||(pdfReady=(async()=>{
+    const w='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    try{pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob([await (await fetch(w)).text()],{type:'text/javascript'}))}
+    catch(e){pdfjsLib.GlobalWorkerOptions.workerSrc=w}
+  })());
+}
+const blocksCache={};
+const LABEL=/^(sub)?t[ií]tulo\s*[-–—:]/i;   // marcações "Título -" / "Subtítulo -" do PDF: removidas com o texto seguinte
+async function pdfBlocks(url){
+  if(blocksCache[url])return blocksCache[url];
+  await pdfInit();
+  const pdf=await pdfjsLib.getDocument(url).promise,L=[];
+  for(let p=1;p<=pdf.numPages;p++){
+    const tc=await (await pdf.getPage(p)).getTextContent(),rows=[];
+    for(const it of tc.items){
+      if(!it.str.trim())continue;
+      const y=Math.round(it.transform[5]),s=Math.abs(it.transform[3])||it.height;
+      let r=rows.find(r=>Math.abs(r.y-y)<3);
+      if(!r){r={y,s:0,t:'',p};rows.push(r)}
+      r.t+=it.str;r.s=Math.max(r.s,s);
+    }
+    rows.sort((a,b)=>b.y-a.y).forEach(r=>L.push(r));
+  }
+  const w={};L.forEach(l=>{const k=Math.round(l.s);w[k]=(w[k]||0)+l.t.length});
+  const body=+Object.keys(w).sort((a,b)=>w[b]-w[a])[0]||12;
+  const out=[];let cur=null,prev=null;
+  for(const l of L){
+    const t=l.t.replace(/\s+/g,' ').trim();
+    if(!t||/^\d{1,3}$/.test(t))continue;
+    const k=l.s>=body*1.45?'h1':l.s>=body*1.12?'h2':'p';
+    const gap=prev&&prev.p===l.p?prev.y-l.y:0;
+    prev=l;
+    if(LABEL.test(t)){out.push(cur={k:'x',t});continue}
+    if(cur&&cur.k==='x'&&gap<=Math.max(body,l.s)*1.7){cur.t+=' '+t;continue}
+    if(k==='h1'&&!out.length)continue;
+    if(k==='p'){
+      if(cur&&cur.k==='p'&&gap<=body*1.7)cur.t+=(/-$/.test(cur.t)?'':' ')+t;
+      else out.push(cur={k,t});
+    }else{
+      if(cur&&cur.k===k&&gap<=l.s*1.6)cur.t+=' '+t;
+      else out.push(cur={k,t});
+    }
+  }
+  return blocksCache[url]=out.filter(b=>b.k!=='x');
+}
+// títulos com 2–3 fontes alternadas entre as palavras
+function mix(t,keys){
+  const n=keys.length;
+  return t.split(' ').map((w,i)=>{
+    const f=FN[keys[(i+Math.floor(i/n)*(w.length%2))%n]];
+    return `<span style="font-family:${f.f};font-weight:${f.w||400};font-size:${f.s}em;${f.i?'font-style:italic;':''}${f.u?'text-transform:uppercase;':''}">${esc(w)}</span>`;
+  }).join(' ');
+}
+
+/* ---------- compartilhar ---------- */
+function shareRow(el){
+  const url=location.href,tx=encodeURIComponent('OZine — '+document.title),eu=encodeURIComponent(url);
+  const L=[['WhatsApp',`https://wa.me/?text=${tx}%20${eu}`,'whatsapp-logo'],['X',`https://twitter.com/intent/tweet?text=${tx}&url=${eu}`,'x-logo'],['Facebook',`https://www.facebook.com/sharer/sharer.php?u=${eu}`,'facebook-logo'],['Telegram',`https://t.me/share/url?url=${eu}&text=${tx}`,'telegram-logo'],['LinkedIn',`https://www.linkedin.com/sharing/share-offsite/?url=${eu}`,'linkedin-logo']];
+  el.innerHTML=`<button class="gl" data-n>${ic('share-network')}Compartilhar</button>`+L.map(l=>`<a class="gl" target="_blank" rel="noopener" href="${l[1]}">${ic(l[2])}${l[0]}</a>`).join('')+`<button class="gl" data-c>${ic('link')}Copiar link</button>`;
+  el.querySelector('[data-n]').onclick=()=>navigator.share?navigator.share({title:document.title,url}).catch(()=>{}):navigator.clipboard?.writeText(url);
+  el.querySelector('[data-c]').onclick=e=>{navigator.clipboard?.writeText(url);e.currentTarget.lastChild.textContent='Copiado ✓'};
+}
+
+/* ---------- banner ---------- */
+const WI={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
+const SZ=[400,270,340,240,400,300,350],MT=[0,70,-30,90,0,-60,40];
+function buildBanner(){
+  const s=$('#strip');
+  const bi=(a,i)=>`<a class="bi a${i}" href="#a/${a.id}" draggable="false" title="${esc(a.title)}" style="height:${SZ[i]}px;margin-top:${MT[i]}px;margin-right:-${Math.round(SZ[i]*.17)}px"><img src="${a.mock}" alt="${esc(a.title)}" loading="lazy" draggable="false"></a>`;
+  const sp=(n,mt)=>`<div class="sp" style="height:${SPL[n][2]}px;margin-top:${mt}px"><iframe src="${spSrc(SPL[n])}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>`;
+  const I=ED.map(bi);
+  s.innerHTML=`<div id="bt"><h1>Ozine</h1><p>edição 1</p></div>`+[I[0],I[1],`<div class="w" id="wx" style="height:260px;margin-top:-40px"></div>`,I[2],sp(0,60),I[3],I[4],
+   `<div class="w" id="ck" style="height:190px;background:#ff4d2e;margin-top:70px"><small>Agora</small><div><b id="hh">--:--</b><div class="s" id="dd"></div></div><small>Horário local</small></div>`,
+   sp(1,-90),I[5],sp(2,0),I[6],sp(3,80),sp(4,-60)].join('');
+  const tick=()=>{const d=new Date();$('#hh').textContent=d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});$('#dd').textContent=d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})};
+  tick();setInterval(tick,10000);
+  const step=()=>Math.max(300,innerWidth*.6);
+  $('#pv').onclick=()=>s.scrollBy({left:-step(),behavior:'smooth'});
+  $('#nx').onclick=()=>s.scrollBy({left:step(),behavior:'smooth'});
+  // roda do mouse rola o banner na horizontal (nas pontas, a página volta a rolar)
+  s.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
+    const d=e.deltaY,max=s.scrollWidth-s.clientWidth;
+    if((d<0&&s.scrollLeft<=0)||(d>0&&s.scrollLeft>=max-1))return;
+    e.preventDefault();s.scrollLeft+=d;
+  },{passive:false});
+  // clique e arraste com inércia (mouse); no toque, a rolagem nativa cuida
+  let down=0,x0=0,sl0=0,v=0,lx=0,lt=0,moved=0,raf;
+  s.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button)return;down=1;moved=0;x0=lx=e.clientX;sl0=s.scrollLeft;v=0;lt=performance.now();cancelAnimationFrame(raf)});
+  addEventListener('pointermove',e=>{
+    if(!down)return;const dx=e.clientX-x0;
+    if(!moved&&Math.abs(dx)>5){moved=1;s.classList.add('drag')}
+    if(moved){s.scrollLeft=sl0-dx;const t=performance.now();v=(lx-e.clientX)/(t-lt||1);lx=e.clientX;lt=t}
+  });
+  addEventListener('pointerup',()=>{
+    if(!down)return;down=0;s.classList.remove('drag');
+    if(moved){let vel=v*16;const f=()=>{s.scrollLeft+=vel;vel*=.94;if(Math.abs(vel)>.4)raf=requestAnimationFrame(f)};f()}
+  });
+  s.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=0}},true);
+  s.addEventListener('dragstart',e=>e.preventDefault());
+}
+
+/* ---------- previsão do tempo ---------- */
+function wxSet(top,big,sub,btn){
+  $('#wx').innerHTML=`<small>${esc(top)}</small><div><b>${big}</b><div class="s">${sub}</div></div>${btn?`<button id="wb">${btn}</button>`:'<small>Open-Meteo</small>'}`;
+  const b=$('#wb');if(b)b.onclick=()=>weather(true);
+}
+async function wxShow(la,lo,city,approx){
+  try{
+    const [f,g]=await Promise.all([
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`).then(r=>r.json()),
+      city?{city}:fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${la}&longitude=${lo}&localityLanguage=pt`).then(r=>r.json()).catch(()=>({}))]);
+    const c=f.current,d=f.daily;
+    wxSet(g.city||g.locality||'Sua região',`${WI[c.weather_code]||'🌡️'} ${Math.round(c.temperature_2m)}°`,`Máx ${Math.round(d.temperature_2m_max[0])}° · Mín ${Math.round(d.temperature_2m_min[0])}°<br>Vento ${Math.round(c.wind_speed_10m)} km/h${approx?'<br><i>local aproximado</i>':''}`,approx?'Usar localização exata':'');
+  }catch(e){wxSet('Previsão do tempo','—','Não foi possível carregar agora.','Tentar de novo')}
+}
+async function wxIP(){
+  try{const g=await fetch('https://ipwho.is/').then(r=>r.json());if(g.success===false)throw 0;await wxShow(g.latitude,g.longitude,g.city,true)}
+  catch(e){wxSet('Previsão do tempo','—','Permita a localização para ver o tempo aqui.','Permitir localização')}
+}
+function weather(ask){
+  wxSet('Previsão do tempo','…','Buscando sua localização…','');
+  if(!navigator.geolocation)return wxIP();
+  navigator.geolocation.getCurrentPosition(p=>wxShow(p.coords.latitude,p.coords.longitude,null,false),()=>wxIP(),{timeout:9000,maximumAge:600000});
+}
+
+/* ---------- menu, painéis, grade ---------- */
+function buildMenu(){
+  $('#mn').innerHTML=MENU.map(m=>`<a href="#t/${m}" data-t="${m}">${m}</a>`).join('');
+  $('#pS').innerHTML=MENU.filter(m=>!['Artigos','Sobre'].includes(m)).map(c=>{
+    const l=ALL.filter(a=>a.tags.includes(c));
+    return `<h5>${c}</h5>`+(l.length?l.map(a=>`<a href="#a/${a.id}">${esc(a.title)}</a>`).join(''):'<em>em breve</em>');
+  }).join('');
+  let pl=0;
+  const toggle=(p,b)=>{const open=!p.classList.contains('on');document.querySelectorAll('.pn').forEach(x=>x.classList.remove('on'));p.classList.toggle('on',open)};
+  $('#bS').onclick=e=>{e.stopPropagation();toggle($('#pS'))};
+  $('#bP').onclick=e=>{
+    e.stopPropagation();
+    if(!pl){pl=1;$('#pP').innerHTML='<h5>Playlist</h5>'+SPL.map(s=>`<iframe src="${spSrc(s)}" height="${s[2]}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`).join('')}
+    toggle($('#pP'));
+  };
+  document.addEventListener('click',e=>{if(!e.target.closest('.pn')||e.target.closest('.pn a'))document.querySelectorAll('.pn').forEach(x=>x.classList.remove('on'))});
+}
+function setTag(t){
+  tag=t;document.querySelectorAll('#mn a').forEach(a=>a.classList.toggle('on',a.dataset.t===t));
+  $('#gt').textContent=t==='Artigos'?'Todas as matérias':t;
+  shown=0;$('#grid').innerHTML='';draw(4);
+}
+function draw(n){
+  const l=tag==='Artigos'?order:ALL.filter(a=>a.tags.includes(tag)),g=$('#grid');
+  if(!l.length){g.innerHTML='<p style="color:var(--mut);grid-column:1/-1">Em breve novas matérias nesta categoria.</p>';$('#more').style.display='none';return}
+  l.slice(shown,shown+n).forEach(a=>{
+    const c=document.createElement('a');c.className='card';c.href='#a/'+a.id;c.dataset.id=a.id;
+    c.innerHTML=`<div class="pic"><i>${a.tags[a.tags.length-1]}</i><img alt="${esc(a.title)}" ${a.cover?`src="${a.cover}"`:''} loading="lazy"></div><h4>${esc(a.title)}</h4>`;
+    if(a.kind==='ed')c.querySelector('img').onerror=function(){this.onerror=null;this.src=a.mock};
+    g.appendChild(c);
+  });
+  shown=Math.min(l.length,shown+n);$('#more').style.display=shown<l.length?'flex':'none';
+}
+$('#more').onclick=()=>draw(999);
+const cxy=e=>{$('#rd').style.setProperty('--cx',e.clientX+'px');$('#rd').style.setProperty('--cy',e.clientY+'px')};
+document.addEventListener('click',e=>{if(e.target.closest('a[href^="#a/"]'))cxy(e)},true);
+
+/* ---------- leitor ---------- */
+let curId=null,mx=innerWidth*.6,my=innerHeight*.5,fxx=mx,fxy=my,fxRun=0;
+function fxLoop(){
+  const rd=$('#rd'),fx=$('#fx');
+  if(!rd.classList.contains('on')){fxRun=0;return}
+  fxx+=(mx-fxx)*.07;fxy+=(my-fxy)*.07;
+  fx.style.transform=`translate(${fxx-fx.offsetWidth/2}px,${fxy-fx.offsetHeight/2}px) rotate(${(mx-fxx)*.03}deg)`;
+  requestAnimationFrame(fxLoop);
+}
+const fxStart=()=>{if(!fxRun){fxRun=1;fxLoop()}};
+$('#rd').addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+$('#rd').addEventListener('touchmove',e=>{mx=e.touches[0].clientX;my=e.touches[0].clientY},{passive:true});
+
+async function openArt(id){
+  const a=byId(id);if(!a)return;
+  curId=id;const rd=$('#rd');rd.scrollTop=0;
+  document.title=a.title+' — OZine';
+  const ph=a.kind==='ed'?a.t:{bg:'#f2f0eb',fg:'#37352f',ac:'#37352f',tf:['ser'],bf:'Inter,sans-serif',bs:'18px'};
+  const st=rd.style;st.setProperty('--rbg',ph.bg);st.setProperty('--rfg',ph.fg);st.setProperty('--rac',ph.ac);st.setProperty('--bf',ph.bf);st.setProperty('--bs',ph.bs);
+  const fx=$('#fx');
+  if(a.kind==='ed'){fx.src=a.mock;fx.style.display='block'}else fx.style.display='none';
+  $('#rb').innerHTML='<div class="ld">Carregando matéria…</div>';
+  rd.classList.add('on');document.body.style.overflow='hidden';fxStart();
+  bar(1);
+  try{
+    const imgs=a.kind==='blog'?await listImgs(a):[];
+    const bl=await pdfBlocks(a.pdf);
+    if(curId!==id){bar(0);return}
+    const cover=a.cover?`<img class="cv" src="${a.cover}" alt="" onerror="this.onerror=null;this.src='${a.mock||''}'">`:'';
+    const body=bl.map(b=>b.k==='h1'?`<h2>${mix(esc(b.t),ph.tf)}</h2>`:b.k==='h2'?`<h3>${mix(esc(b.t),ph.tf)}</h3>`:`<p>${esc(b.t)}</p>`).join('');
+    const h1=a.kind==='ed'?`<h1 style="color:${ph.ac}">${mix(esc(a.title),ph.tf)}</h1>`:`<h1>${esc(a.title)}</h1>`;
+    let end='';
+    if(a.kind==='blog'){
+      end=imgs.map(i=>`<figure><img loading="lazy" src="${i.u}" alt=""><figcaption>${esc(i.n.replace(/\.[^.]+$/,''))}</figcaption></figure>`).join('');
+      end+=`<div class="src">${a.src?`Fonte: <a target="_blank" rel="noopener" href="${a.src}">${a.src}</a><br>`:''}${a.links.map(l=>`<a target="_blank" rel="noopener" href="${l[1]}">${l[2]?ic('instagram-logo'):''}${esc(l[0])}</a>`).join('')}</div>`;
+    }
+    $('#rb').innerHTML=`<article class="art ${a.kind==='blog'?'blog':''}">${cover}${h1}${body}${end}<div class="sh" id="shA" style="margin-top:50px"></div></article>`;
+    shareRow($('#shA'));
+  }catch(e){
+    $('#rb').innerHTML=`<div class="ld">Não foi possível carregar o texto agora.<br><a href="${a.pdf}" target="_blank" rel="noopener">Abrir o PDF original</a></div>`;
+  }
+  bar(0);
+}
+function closeArt(){curId=null;$('#rd').classList.remove('on');document.body.style.overflow='';document.title='OZine — revista digital'}
+function openAbout(){
+  curId=null;const rd=$('#rd'),st=rd.style;
+  st.setProperty('--rbg','#f2f0eb');st.setProperty('--rfg','#37352f');st.setProperty('--rac','#ff4d2e');st.setProperty('--bf','Inter,sans-serif');st.setProperty('--bs','19px');
+  $('#fx').style.display='none';
+  $('#rb').innerHTML=`<article class="art"><h1 style="font-family:Anton,sans-serif;font-size:clamp(70px,14vw,170px)">Sobre</h1><p>O OZine é um site de artigos, matérias e indicações com curadoria própria e uma linha editorial clara. Nosso objetivo é colaborar com novas descobertas para referência: pessoas, processos, imagens e ideias que alimentam quem cria.</p><div class="sh" id="shA" style="margin-top:50px"></div></article>`;
+  shareRow($('#shA'));rd.scrollTop=0;rd.classList.add('on');document.body.style.overflow='hidden';
+}
+function nextArt(){const i=ALL.findIndex(a=>a.id===curId);location.hash='#a/'+ALL[(i+1)%ALL.length].id}
+$('#cl').onclick=()=>{location.hash='#'};
+$('#nxa').onclick=nextArt;
+addEventListener('keydown',e=>{if(e.key==='Escape')location.hash='#'});
+function route(){
+  const h=decodeURIComponent(location.hash);
+  if(h.startsWith('#a/'))openArt(h.slice(3));
+  else if(h==='#t/Sobre')openAbout();
+  else{closeArt();if(h.startsWith('#t/')){setTag(h.slice(3));$('#gt').scrollIntoView()}}
+}
+addEventListener('hashchange',route);
+
+/* ---------- cursor ---------- */
+const cur=$('#cur');
+function moveCur(x,y){cur.style.transform=`translate(${x-13}px,${y-13}px)`;cur.classList.toggle('big',!!document.elementFromPoint(x,y)?.closest('a,button,.sp'))}
+addEventListener('mousemove',e=>{if(!G.on)moveCur(e.clientX,e.clientY)});
+
+/* ---------- gestos com a webcam (só desktop) ---------- */
+const G={on:0,x:innerWidth/2,y:innerHeight/2,pin:0,hold:{},cool:0};
+const MP='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+async function camStart(){
+  $('#gi').classList.remove('on');$('#cam').classList.add('on');$('#cst').textContent='Pedindo acesso à câmera…';
+  try{
+    G.stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480}});
+    const v=$('#cv');v.srcObject=G.stream;await v.play();
+    $('#cst').textContent='Carregando reconhecimento de mãos…';bar(1);
+    const m=await import(MP+'/vision_bundle.mjs');
+    const fs=await m.FilesetResolver.forVisionTasks(MP+'/wasm');
+    G.hl=await m.HandLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'},runningMode:'VIDEO',numHands:1});
+    bar(0);G.on=1;$('#cst').textContent='Mostre a mão para a câmera';camLoop();
+  }catch(e){bar(0);camStop();alert('Não foi possível ligar a câmera. Permita o acesso no navegador (se abriu o arquivo direto do computador, tente por um servidor local ou https).')}
+}
+function camStop(){G.on=0;G.pin=0;G.stream?.getTracks().forEach(t=>t.stop());try{G.hl?.close()}catch(e){}G.hl=null;$('#cam').classList.remove('on')}
+function camLoop(){
+  if(!G.on)return;
+  const v=$('#cv');
+  if(v.currentTime!==G.lt){G.lt=v.currentTime;gesture(G.hl.detectForVideo(v,performance.now()).landmarks[0])}
+  requestAnimationFrame(camLoop);
+}
+function clickAt(x,y){const el=document.elementFromPoint(x,y)?.closest('a,button');if(el)el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,clientX:x,clientY:y}))}
+function gesture(lm){
+  const cv=$('#cc'),c=cv.getContext('2d'),now=performance.now();
+  c.clearRect(0,0,cv.width,cv.height);
+  if(!lm){G.pin=0;G.hold={};$('#cst').textContent='Mostre a mão para a câmera';return}
+  c.fillStyle='#ff4d2e';lm.forEach(p=>{c.beginPath();c.arc(p.x*cv.width,p.y*cv.height,3,0,7);c.fill()});
+  const d=(a,b)=>Math.hypot(lm[a].x-lm[b].x,lm[a].y-lm[b].y),size=d(0,9)||.1;
+  const n=[[8,6],[12,10],[16,14],[20,18]].filter(([t,p])=>d(t,0)>d(p,0)*1.08).length;
+  const r=d(4,8)/size,pinch=G.pin?r<.45:r<.3;
+  G.x+=(clamp(((1-lm[8].x)-.15)/.7)*innerWidth-G.x)*.35;
+  G.y+=(clamp((lm[8].y-.1)/.65)*innerHeight-G.y)*.35;
+  moveCur(G.x,G.y);mx=G.x;my=G.y;
+  const open=$('#rd').classList.contains('on');
+  if(pinch){
+    if(!G.pin){G.pin=1;G.t0=now;G.sx=G.px=G.x;G.sy=G.py=G.y;G.mv=0}
+    const dx=G.x-G.px,dy=G.y-G.py;G.px=G.x;G.py=G.y;
+    if(Math.hypot(G.x-G.sx,G.y-G.sy)>30)G.mv=1;
+    if(G.mv){
+      const el=document.elementFromPoint(G.x,G.y);
+      if(el?.closest('#strip'))$('#strip').scrollLeft-=dx*2.2;
+      else if(open)$('#rd').scrollTop-=dy*2.2;else scrollBy(0,-dy*2.2);
+    }
+    $('#cst').textContent=G.mv?'Arrastando':'Pinça';G.hold={};return;
+  }
+  if(G.pin){G.pin=0;if(!G.mv&&now-G.t0<800){clickAt(G.sx,G.sy);$('#cst').textContent='Clique!'}}
+  const k=n===4?'palm':n===0?'fist':'';
+  G.hold={[k]:G.hold[k]||now};
+  $('#cst').textContent=k==='palm'?'Mão aberta':k==='fist'?'Punho':'Apontando';
+  if(k&&open&&now-G.hold[k]>1000&&now>G.cool){G.cool=now+1800;G.hold={};if(k==='palm')nextArt();else location.hash='#'}
+}
+$('#bG').onclick=()=>$('#gi').classList.add('on');
+$('#gOn').onclick=camStart;$('#gX').onclick=()=>$('#gi').classList.remove('on');
+$('#cq').onclick=()=>$('#gi').classList.add('on');$('#co').onclick=camStop;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&innerWidth>900&&navigator.mediaDevices)$('#bG').style.display='';
+
+/* ---------- início ---------- */
+buildMenu();buildBanner();setTag('Artigos');weather();
+$('#soc').innerHTML=SOC.map(s=>`<a class="gl" target="_blank" rel="noopener" href="${s[1]}">${ic(s[2])}${s[0]}</a>`).join('');
+shareRow($('#shF'));
+BL.forEach(b=>listImgs(b).then(()=>{const c=document.querySelector(`.card[data-id="${b.id}"] img`);if(c&&b.cover)c.src=b.cover}));
+if(location.hash)route();
+</script>
+</body>
+</html>
